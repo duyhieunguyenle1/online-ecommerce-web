@@ -29,8 +29,21 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## About This Project
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Preview
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Users Admin Dashboard
+  !["Preview Admin Dashboard"](https://res.cloudinary.com/darnjuxfv/image/upload/v1703670203/vumhhy7vwocwa73mpxqx.png)
+
+- Add Products Admin Dashboard
+  !["Preview Admin Dashboard"](https://res.cloudinary.com/darnjuxfv/image/upload/v1703670202/uvbdntfm5hqymcnqdvhm.png)
+
+- Edit Products Admin Dashboard
+  !["Preview Admin Dashboard"](https://res.cloudinary.com/darnjuxfv/image/upload/v1703670203/k8am1oizrw9rkx6el2u4.png)
+
+- Place Reviews User Page
+  !["Preview User Page"](https://res.cloudinary.com/darnjuxfv/image/upload/v1703670203/psqbtywruqr15setvywa.png)
+
+- Place Orders User Page (Checkout)
+  !["Preview User Page"](https://res.cloudinary.com/darnjuxfv/image/upload/v1703670203/pc40gc3q1jljltpp9oy2.png)
