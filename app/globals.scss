@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.clip-parallelogram {
+  clip-path: polygon(10% 0%, 100% 0%, 87% 100%, 0% 101%);
+}
+
+.container {
+  max-width: 1200px;
+}
+
+.close:hover,
+.close:focus {
+  box-shadow:
+    inset 5.5rem 0 0 0 adjust-hue(#000, 45deg),
+    inset -5rem 0 0 0 adjust-hue(#000, 45deg);
+}
+
+.ant-btn-primary {
+  background-color: #0056b3 !important;
+  box-shadow: none;
+}
+
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1200px;
+  }
+}
