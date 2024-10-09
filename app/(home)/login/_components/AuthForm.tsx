@@ -17,7 +17,7 @@ interface AuthFormProps {
 }
 
 const AuthForm = ({ toggleVariant, setToggleVariant }: AuthFormProps) => {
-  const regExpEmail = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g);
+  const regExpEmail = new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/);
   const router = useRouter();
 
   const {

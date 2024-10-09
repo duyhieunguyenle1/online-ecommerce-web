@@ -12,11 +12,17 @@ import { User } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import PaymentForm from './PaymentForm';
+import { useState } from 'react';
+
+type checkoutStepType = 'information' | 'payment'
 
 const CheckoutForm = ({ user }: { user: User }) => {
   const cart = useAppSelector((state) => state.cart);
   const total = useAppSelector((state) => totalPriceSelector(state));
   const quantity = useAppSelector((state) => totalCartItemSelector(state));
+  const [checkoutStep, setCheckoutStep] = useState<checkoutStepType>('information')
+
   const regExpNumber = new RegExp(
     /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/g
   );
@@ -28,6 +34,7 @@ const CheckoutForm = ({ user }: { user: User }) => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<FieldValues>();
 
@@ -49,6 +56,10 @@ const CheckoutForm = ({ user }: { user: User }) => {
       .catch((err) => handleAxiosError(err));
   };
 
+  const handleClick = () => {
+    setCheckoutStep('payment')
+  }
+
   return (
     <div className='py-24'>
       <div className='container mx-auto'>
@@ -56,54 +67,58 @@ const CheckoutForm = ({ user }: { user: User }) => {
           className='flex flex-col gap-8 md:flex-row'
           onSubmit={handleSubmit(onSubmitHandler)}
         >
-          <div className='max-h-[585px] flex-1 border p-7'>
-            <h3 className='mb-5 text-xl font-semibold text-yellowColor'>
-              Details Information
-            </h3>
-            <div className='flex flex-col'>
-              <div className='mb-5 flex flex-col'>
-                <label htmlFor='address' className='mb-2 font-semibold'>
-                  Address
-                  <span className='text-redColor'>*</span>
-                </label>
-                <input
-                  type='text'
-                  id='address'
-                  className='border px-4 py-2 outline-none'
-                  placeholder='Enter your Address'
-                  {...register('address', { required: true })}
-                />
-                <div className='absolute bottom-[calc(70%)] right-0 mt-1 text-right text-xs text-invalidColor'>
-                  {errors['address']?.message as string}
+          {checkoutStep === 'information' ? (
+            <div className='max-h-[585px] flex-1 border p-7'>
+              <h3 className='mb-5 text-xl font-semibold text-yellowColor'>
+                Details Information
+              </h3>
+              <div className='flex flex-col'>
+                <div className='mb-5 flex flex-col'>
+                  <label htmlFor='address' className='mb-2 font-semibold'>
+                    Address
+                    <span className='text-redColor'>*</span>
+                  </label>
+                  <input
+                    type='text'
+                    id='address'
+                    className='border px-4 py-2 outline-none'
+                    placeholder='Enter your Address'
+                    {...register('address', { required: true })}
+                  />
+                  <div className='absolute bottom-[calc(70%)] right-0 mt-1 text-right text-xs text-invalidColor'>
+                    {errors['address']?.message as string}
+                  </div>
                 </div>
-              </div>
-              <div className='relative mb-5 flex flex-col'>
-                <label htmlFor='receivedPhone' className='mb-2 font-semibold'>
-                  Phone
-                  <span className='text-redColor'>*</span>
-                </label>
-                <input
-                  type='text'
-                  id='receivedPhone'
-                  className='border px-4 py-2 outline-none'
-                  placeholder='Enter your phone number'
-                  {...register('receivedPhone', {
-                    required: true,
-                    pattern: regExpNumber,
-                  })}
-                />
-                <div className='absolute bottom-[calc(70%)] right-0 mt-1 text-right text-xs text-invalidColor'>
-                  {errors['receivedPhone']?.message as string}
+                <div className='relative mb-5 flex flex-col'>
+                  <label htmlFor='receivedPhone' className='mb-2 font-semibold'>
+                    Phone
+                    <span className='text-redColor'>*</span>
+                  </label>
+                  <input
+                    type='text'
+                    id='receivedPhone'
+                    className='border px-4 py-2 outline-none'
+                    placeholder='Enter your phone number'
+                    {...register('receivedPhone', {
+                      required: true,
+                      pattern: regExpNumber,
+                    })}
+                  />
+                  <div className='absolute bottom-[calc(70%)] right-0 mt-1 text-right text-xs text-invalidColor'>
+                    {errors['receivedPhone']?.message as string}
+                  </div>
                 </div>
+                <textarea
+                  className='mt-4 min-h-[150px] border px-4 py-2 text-sm outline-none'
+                  id='notes'
+                  placeholder='Order Notes'
+                  {...register('notes')}
+                />
               </div>
-              <textarea
-                className='mt-4 min-h-[150px] border px-4 py-2 text-sm outline-none'
-                id='notes'
-                placeholder='Order Notes'
-                {...register('notes')}
-              />
             </div>
-          </div>
+          ) : (
+            <PaymentForm control={control} errors={errors} />
+          )}
           <div className='flex-1 border p-7'>
             <h3 className='mb-5 text-xl font-semibold text-yellowColor'>
               Your Order
@@ -160,13 +175,24 @@ const CheckoutForm = ({ user }: { user: User }) => {
                 </tr>
               </tbody>
             </table>
-            <button
-              type='submit'
-              className='mt-6 w-full rounded border bg-yellowColor px-6 py-3 capitalize 
-              text-white transition-all duration-300 hover:border-black hover:bg-white hover:text-black'
-            >
-              Confirm Order
-            </button>
+            {checkoutStep === 'information' ? (
+              <button
+                type='button'
+                className='mt-6 w-full rounded border bg-yellowColor px-6 py-3 capitalize 
+                  text-white transition-all duration-300 hover:border-black hover:bg-white hover:text-black'
+                onClick={handleClick}
+              >
+                Continue
+              </button>
+            ) : (
+              <button
+                type='submit'
+                className='mt-6 w-full rounded border bg-yellowColor px-6 py-3 capitalize 
+                  text-white transition-all duration-300 hover:border-black hover:bg-white hover:text-black'
+              >
+                Confirm Order
+              </button>
+            )}
           </div>
         </form>
       </div>
