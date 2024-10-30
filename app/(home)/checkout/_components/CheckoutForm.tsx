@@ -1,6 +1,6 @@
 'use client';
 
-import { PATH_SHOP } from '@/app/routes/router.path';
+import { PATH_CHECKOUT_PAYMENT } from '@/app/routes/router.path';
 import {
   clearCart,
   totalCartItemSelector,
@@ -20,7 +20,6 @@ const CheckoutForm = ({ user }: { user: User }) => {
   const regExpNumber = new RegExp(
     /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/g
   );
-  const dispatch = useAppDispatch();
 
   const router = useRouter();
   const listProducts = cart.cartItems.map((item) => item.product.id) || [];
@@ -42,8 +41,8 @@ const CheckoutForm = ({ user }: { user: User }) => {
       })
       .then((res) => {
         if (res.status === 200) {
-          router.push(PATH_SHOP);
-          dispatch(clearCart());
+          router.push(`${PATH_CHECKOUT_PAYMENT}?i=${res.data.id}`);
+          // dispatch(clearCart());
         }
       })
       .catch((err) => handleAxiosError(err));

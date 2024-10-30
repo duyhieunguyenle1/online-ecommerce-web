@@ -45,6 +45,10 @@ const statusData = [
     value: 'processing',
   },
   {
+    text: 'Paid',
+    value: 'paid',
+  },
+  {
     text: 'Delivered',
     value: 'delivered',
   },
